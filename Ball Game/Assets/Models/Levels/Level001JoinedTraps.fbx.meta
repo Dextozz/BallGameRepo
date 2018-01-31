@@ -1,0 +1,209 @@
+fileFormatVersion: 2
+guid: f070cbeea418bf348bbb7b0aad850f37
+timeCreated: 1503788566
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Blade
+    100002: Blade.002
+    100004: Blade.004
+    100006: Blades
+    100008: FallingSpikes
+    100010: //RootNode
+    100012: Plates
+    100014: Platform 6x6x0.000
+    100016: Platform 6x6x0.5
+    100018: PressurePlates
+    100020: PressurePlateTile
+    100022: PressurePlateTile.001
+    100024: PressurePlateTile.002
+    100026: PressurePlateTile.003
+    100028: PressurePlateTile.004
+    100030: PressurePlateTile.005
+    100032: PressurePlateTile.006
+    100034: PressurePlateTile.007
+    100036: PressurePlateTile.008
+    100038: PressurePlateTile.009
+    100040: PressurePlateTile.010
+    100042: PressurePlateTile.011
+    100044: PressurePlateTile.012
+    100046: PressurePlateTile.013
+    100048: PressurePlateTile.014
+    100050: PressurePlateTile.015
+    100052: PressurePlateTile.016
+    100054: PressurePlateTile.017
+    100056: Tiles
+    400000: Blade
+    400002: Blade.002
+    400004: Blade.004
+    400006: Blades
+    400008: FallingSpikes
+    400010: //RootNode
+    400012: Plates
+    400014: Platform 6x6x0.000
+    400016: Platform 6x6x0.5
+    400018: PressurePlates
+    400020: PressurePlateTile
+    400022: PressurePlateTile.001
+    400024: PressurePlateTile.002
+    400026: PressurePlateTile.003
+    400028: PressurePlateTile.004
+    400030: PressurePlateTile.005
+    400032: PressurePlateTile.006
+    400034: PressurePlateTile.007
+    400036: PressurePlateTile.008
+    400038: PressurePlateTile.009
+    400040: PressurePlateTile.010
+    400042: PressurePlateTile.011
+    400044: PressurePlateTile.012
+    400046: PressurePlateTile.013
+    400048: PressurePlateTile.014
+    400050: PressurePlateTile.015
+    400052: PressurePlateTile.016
+    400054: PressurePlateTile.017
+    400056: Tiles
+    2300000: Blade
+    2300002: Blade.002
+    2300004: Blade.004
+    2300006: Platform 6x6x0.000
+    2300008: Platform 6x6x0.5
+    2300010: PressurePlateTile
+    2300012: PressurePlateTile.001
+    2300014: PressurePlateTile.002
+    2300016: PressurePlateTile.003
+    2300018: PressurePlateTile.004
+    2300020: PressurePlateTile.005
+    2300022: PressurePlateTile.006
+    2300024: PressurePlateTile.007
+    2300026: PressurePlateTile.008
+    2300028: PressurePlateTile.009
+    2300030: PressurePlateTile.010
+    2300032: PressurePlateTile.011
+    2300034: PressurePlateTile.012
+    2300036: PressurePlateTile.013
+    2300038: PressurePlateTile.014
+    2300040: PressurePlateTile.015
+    2300042: PressurePlateTile.016
+    2300044: PressurePlateTile.017
+    3300000: Blade
+    3300002: Blade.002
+    3300004: Blade.004
+    3300006: Platform 6x6x0.000
+    3300008: Platform 6x6x0.5
+    3300010: PressurePlateTile
+    3300012: PressurePlateTile.001
+    3300014: PressurePlateTile.002
+    3300016: PressurePlateTile.003
+    3300018: PressurePlateTile.004
+    3300020: PressurePlateTile.005
+    3300022: PressurePlateTile.006
+    3300024: PressurePlateTile.007
+    3300026: PressurePlateTile.008
+    3300028: PressurePlateTile.009
+    3300030: PressurePlateTile.010
+    3300032: PressurePlateTile.011
+    3300034: PressurePlateTile.012
+    3300036: PressurePlateTile.013
+    3300038: PressurePlateTile.014
+    3300040: PressurePlateTile.015
+    3300042: PressurePlateTile.016
+    3300044: PressurePlateTile.017
+    4300000: Platform 6x6x0.5
+    4300002: Platform 6x6x0.000
+    4300004: Blade.004
+    4300006: Blade.002
+    4300008: Blade
+    4300010: PressurePlateTile.017
+    4300012: PressurePlateTile.016
+    4300014: PressurePlateTile.015
+    4300016: PressurePlateTile.014
+    4300018: PressurePlateTile.013
+    4300020: PressurePlateTile.012
+    4300022: PressurePlateTile.011
+    4300024: PressurePlateTile.010
+    4300026: PressurePlateTile.009
+    4300028: PressurePlateTile.008
+    4300030: PressurePlateTile.007
+    4300032: PressurePlateTile.006
+    4300034: PressurePlateTile.005
+    4300036: PressurePlateTile.004
+    4300038: PressurePlateTile.003
+    4300040: PressurePlateTile.002
+    4300042: PressurePlateTile.001
+    4300044: PressurePlateTile
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
