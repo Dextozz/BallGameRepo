@@ -8,6 +8,8 @@ public class SimonSaysPuzzle : MonoBehaviour {
 	public static bool resetTile;
 	[HideInInspector]
 	public static bool detectPress;
+	[HideInInspector]
+	public static string pressedTile;
 
 	public int length = 7;
 	public MeshRenderer[] indicators;
@@ -20,16 +22,16 @@ public class SimonSaysPuzzle : MonoBehaviour {
 	int[] correctCombination;
 	List<int> playerCombination;
 	int currentIndex;
-    int counter;
+	int counter;
 	//If this is false, reset the circle and empty the list playerComb, if it's true, don't do anything
 	bool whenToResetTrap;
 
-    //It might be possible that the script worsk properly only if i press the button, get off it, and press another one
+	//It might be possible that the script work properly only if i press the button, get off it, and press another one
 
 	// Use this for initialization
 	void Awake () {
-        whenToResetTrap = true;
-        counter = length - 3;
+		whenToResetTrap = true;
+		counter = length - 3;
 		currentIndex = 0;
 		correctCombination = new int[length];
 		bones = new GameObject[4];
@@ -47,8 +49,7 @@ public class SimonSaysPuzzle : MonoBehaviour {
 	{
 		GetTilesBones();
 		GetFirstPosOfFields();
-		GenerateNew();
-        StartCoroutine(ShowCombination());
+		StartCoroutine(ShowCombination());
 	}
 
 	// Update is called once per frame
@@ -56,9 +57,10 @@ public class SimonSaysPuzzle : MonoBehaviour {
 		WhenToResetTile();
 		WhenToAddCombination();
 
-        //If the player made a mistake, reset
+		//If the player made a mistake, reset
 		if(!whenToResetTrap)
 		{
+			//Play "wrong" sound
 			playerCombination = new List<int>();
 			GenerateCombination();
 			whenToResetTrap = true;
@@ -75,6 +77,7 @@ public class SimonSaysPuzzle : MonoBehaviour {
 		return false;
 	}
 
+	//TODO: When the player does 3 correct ones, don't generate new
 	void AddCorrect()
 	{
 		for (int i = 0; i < indicators.Length; i++)
@@ -82,48 +85,43 @@ public class SimonSaysPuzzle : MonoBehaviour {
 			if(indicators[i].material.color != Color.white)
 			{
 				indicators[i].material.color = Color.white;
-
-				//Generate new combination
-				GenerateCombination();
-                //Reset the players combinations
-                playerCombination = new List<int>();
+				//Reset the players combinations
+				playerCombination = new List<int>();
 
 				return;
 			}
-
-            Debug.Log("Did colors");
 		}
 	}
 
-    void WhenToAddCorrect()
-    {
-        //If the list is long enough to compare and if the last ones are the same
-        if(playerCombination.Count == counter && Compare())
-        {
-            AddCorrect();
-            counter++;
-        }
-    }
+	void WhenToAddCorrect()
+	{
+		//If the list is long enough to compare and if the last ones are the same
+		if(playerCombination.Count == counter && Compare())
+		{
+			AddCorrect();
+			counter++;
+		}
+	}
 
 	void WhenToAddCombination()
 	{
-		//When the player enters the trigger
+		//When a tile is pressed
 		if(detectPress)
 		{
 			for (int i = 0; i < tiles.Length; i++)
 			{
-				//If the tile moved, if the player has pressed it, and if the list is smaller than the array
-				if(bones[i].transform.position != firstPos[i] && bones[i].tag == "DoNotResetTile" && playerCombination.Count < correctCombination.Length)
+				//Determine which tile is pressed
+				if(tiles[i].transform.parent.name == pressedTile)
 				{
-                    //Add to player combination
-                    playerCombination.Add(i);
+					playerCombination.Add(i);
 					detectPress = false;
+					pressedTile = null;
 					whenToResetTrap = Compare();
 				}
 			}
 
-            WhenToAddCorrect();
-        }
+			WhenToAddCorrect();
+		}
 	}
 
 	void WhenToResetTile()
@@ -170,9 +168,8 @@ public class SimonSaysPuzzle : MonoBehaviour {
 		}
 	}
 
-	void GenerateCombination()
+	public void GenerateCombination()
 	{
-        Debug.Log("Generate comb");
 		//Generate new combo at currentIndex
 		correctCombination[currentIndex] = Random.Range(0, 4);
 
@@ -182,10 +179,8 @@ public class SimonSaysPuzzle : MonoBehaviour {
 		StartCoroutine(ShowCombination());
 	}
 
-	void GenerateNew()
+	public void GenerateNew()
 	{
-		Debug.Log("GeneratedNew");
-
 		//-4 because we have 5 buttons to complete, this is for the first one
 		for (int i = 0; i < length - 4; i++)
 		{
@@ -196,6 +191,8 @@ public class SimonSaysPuzzle : MonoBehaviour {
 
 		//We have generated 3 combinations, start next generation at the 4th place
 		currentIndex = length - 3;
+
+		StartCoroutine(ShowCombination());
 	}
 
 	void GetTilesBones()

@@ -3,6 +3,7 @@
 public class StartArrowsButton : MonoBehaviour {
 
     Animator anim;
+    //This is public static because another script is probably turning it off
     [HideInInspector]
     public static Collider boxCollider;
 
@@ -10,7 +11,6 @@ public class StartArrowsButton : MonoBehaviour {
 
     void Start()
     {
-        //anim = GameObject.Find("dugmefbx").GetComponent<Animator>();
         anim = gameObject.transform.parent.parent.GetComponent<Animator>();
         boxCollider = GetComponent<Collider>();
     }
