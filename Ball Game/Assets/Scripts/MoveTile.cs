@@ -39,7 +39,8 @@ public class MoveTile : MonoBehaviour {
 
             //Simon says part
             gameObject.tag = "DoNotResetTile";
-            SimonSaysPuzzle.detectPress = true;
+            if(SimonSaysPuzzle.buttonWasPressedAtLeastOnce)
+                SimonSaysPuzzle.detectPress = true;
             SimonSaysPuzzle.pressedTile = transform.parent.parent.name;
         }
     }

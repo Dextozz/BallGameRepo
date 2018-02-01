@@ -5,26 +5,26 @@ using UnityEngine;
 public class ButtonSimonSays : MonoBehaviour {
 
 	Animator anim;
-    SimonSaysPuzzle simonSays;
+	SimonSaysPuzzle simonSays;
 
-    int downHash = Animator.StringToHash("Armature|button down");
-    bool playFirst;
+	int downHash = Animator.StringToHash("Armature|button down");
+	bool playFirst;
 
 	// Use this for initialization
 	void Start () {
-        anim = gameObject.transform.parent.parent.GetComponent<Animator>();
-        simonSays = GameObject.Find("SimonSaysGround").GetComponent<SimonSaysPuzzle>();
-        playFirst = true;
-    }
+		anim = gameObject.transform.parent.parent.GetComponent<Animator>();
+		simonSays = GameObject.Find("SimonSaysGround").GetComponent<SimonSaysPuzzle>();
+		playFirst = true;
+	}
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (playFirst)
-        {
-            simonSays.GenerateNew();
-            playFirst = false;
-        }
-        else
-            simonSays.GenerateCombination();
-    }
+	void OnTriggerEnter(Collider other)
+	{
+		if (playFirst)
+		{
+			simonSays.GenerateNew();
+			playFirst = false;
+		}
+		else
+			simonSays.GenerateCombination();
+	}
 }

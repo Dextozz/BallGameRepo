@@ -23,21 +23,18 @@ public class SimonSaysPuzzle : MonoBehaviour {
 	List<int> playerCombination;
 	int currentIndex;
 	int counter;
-	//If this is false, reset the circle and empty the list playerComb, if it's true, don't do anything
-	bool whenToResetTrap;
+    //if the button was not pressed, don't add play combinations
+    [HideInInspector]
+    public static bool buttonWasPressedAtLeastOnce;
 
-	//It might be possible that the script work properly only if i press the button, get off it, and press another one
-
-	// Use this for initialization
-	void Awake () {
-		whenToResetTrap = true;
+    // Use this for initialization
+    void Awake () {
 		counter = length - 3;
 		currentIndex = 0;
 		correctCombination = new int[length];
 		bones = new GameObject[4];
 		firstPos = new Vector3[4];
 		darkTiles = new Material[4];
-		playerCombination = new List<int>();
 
 		for (int i = 0; i < 4; i++)
 		{
@@ -49,22 +46,12 @@ public class SimonSaysPuzzle : MonoBehaviour {
 	{
 		GetTilesBones();
 		GetFirstPosOfFields();
-		StartCoroutine(ShowCombination());
 	}
 
 	// Update is called once per frame
 	void Update () {
 		WhenToResetTile();
 		WhenToAddCombination();
-
-		//If the player made a mistake, reset
-		if(!whenToResetTrap)
-		{
-			//Play "wrong" sound
-			playerCombination = new List<int>();
-			GenerateCombination();
-			whenToResetTrap = true;
-		}
 	}
 
 	bool Compare()
@@ -106,7 +93,7 @@ public class SimonSaysPuzzle : MonoBehaviour {
 	void WhenToAddCombination()
 	{
 		//When a tile is pressed
-		if(detectPress)
+		if(detectPress && buttonWasPressedAtLeastOnce)
 		{
 			for (int i = 0; i < tiles.Length; i++)
 			{
@@ -116,7 +103,13 @@ public class SimonSaysPuzzle : MonoBehaviour {
 					playerCombination.Add(i);
 					detectPress = false;
 					pressedTile = null;
-					whenToResetTrap = Compare();
+					
+                    //If he made a mistake
+                    if(!Compare())
+                    {
+                        //Play the "wrong sound"
+                        Debug.Log("Mistake");
+                    }
 				}
 			}
 
@@ -170,17 +163,22 @@ public class SimonSaysPuzzle : MonoBehaviour {
 
 	public void GenerateCombination()
 	{
+		playerCombination = new List<int>();
+
 		//Generate new combo at currentIndex
 		correctCombination[currentIndex] = Random.Range(0, 4);
 
 		if(currentIndex < length - 1)
 			currentIndex++;
 
+        StopAllCoroutines();
 		StartCoroutine(ShowCombination());
 	}
 
 	public void GenerateNew()
 	{
+        playerCombination = new List<int>();
+
 		//-4 because we have 5 buttons to complete, this is for the first one
 		for (int i = 0; i < length - 4; i++)
 		{
@@ -192,7 +190,9 @@ public class SimonSaysPuzzle : MonoBehaviour {
 		//We have generated 3 combinations, start next generation at the 4th place
 		currentIndex = length - 3;
 
-		StartCoroutine(ShowCombination());
+        buttonWasPressedAtLeastOnce = true;
+
+        StartCoroutine(ShowCombination());
 	}
 
 	void GetTilesBones()
@@ -202,4 +202,6 @@ public class SimonSaysPuzzle : MonoBehaviour {
 			bones[i] = tiles[i].transform.parent.Find("Armature").transform.Find("Bone").gameObject;
 		}
 	}
+
+    //When the player presses the button without tiles multiple times, it keeps generating new combinations instead of showing the same one
 }
