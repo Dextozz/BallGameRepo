@@ -7,7 +7,8 @@ public class ButtonSimonSays : MonoBehaviour {
 	Animator anim;
 	SimonSaysPuzzle simonSays;
 
-	int downHash = Animator.StringToHash("Armature|button down");
+	int downHash = Animator.StringToHash("bones|button down");
+	int upHash = Animator.StringToHash("bones|button up");
 	bool playFirst;
 
 	// Use this for initialization
@@ -25,6 +26,21 @@ public class ButtonSimonSays : MonoBehaviour {
 			playFirst = false;
 		}
 		else
-			simonSays.GenerateCombination();
+		{
+			if (SimonSaysPuzzle.buttonGeneratesNew)
+			{
+				simonSays.GenerateCombination();
+				SimonSaysPuzzle.buttonGeneratesNew = false;
+			}
+			else
+				simonSays.ShowCombination();
+		}
+
+		anim.Play(downHash);
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		anim.Play(upHash);   
 	}
 }
