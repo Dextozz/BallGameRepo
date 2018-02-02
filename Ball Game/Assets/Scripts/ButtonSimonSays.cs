@@ -33,7 +33,11 @@ public class ButtonSimonSays : MonoBehaviour {
 				SimonSaysPuzzle.buttonGeneratesNew = false;
 			}
 			else
+			{
 				simonSays.ShowCombination();
+				//So the player can't just see whats missing
+				simonSays.ResetPlayerComb();
+			}
 		}
 
 		anim.Play(downHash);
