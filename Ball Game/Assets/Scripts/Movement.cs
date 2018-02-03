@@ -175,11 +175,17 @@ public class Movement : MonoBehaviour {
 
 
     //For the maze camera
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if(other.tag == "CameraSnap")
         {
             CameraMovement.setTopDown = true;
+        }
+
+        if(other.tag == "ElevatorPlatformTrigger")
+        {
+            Debug.Log("HitElevator");
+            ElevatorMovement.movePlayer = true;
         }
     }
 
@@ -188,6 +194,12 @@ public class Movement : MonoBehaviour {
         if(other.tag == "CameraSnap")
         {
             CameraMovement.setTopDown = false;
+        }
+
+        if (other.tag == "ElevatorPlatformTrigger")
+        {
+            Debug.Log("LeftElevator");
+            ElevatorMovement.movePlayer = false;
         }
     }
 }

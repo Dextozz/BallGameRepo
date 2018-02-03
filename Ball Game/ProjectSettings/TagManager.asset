@@ -18,6 +18,7 @@ TagManager:
   - CameraSnap
   - CoinMid
   - DoNotResetTile
+  - ElevatorPlatformTrigger
   layers:
   - Default
   - TransparentFX
