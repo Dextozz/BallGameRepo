@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour {
     [HideInInspector]
     public static bool respawn;
     public float speedLimit;
+    public VirtualJoystick joystick;
 
     float moveHorizontal;
     float moveVertical;
@@ -49,8 +50,11 @@ public class Movement : MonoBehaviour {
         {
             if (IsGrounded())
             {
-                moveHorizontal = Input.GetAxis("Horizontal");
-                moveVertical = Input.GetAxis("Vertical");
+                //moveHorizontal = Input.GetAxis("Horizontal");
+                //moveVertical = Input.GetAxis("Vertical");
+
+                moveHorizontal = joystick.Horizontal();
+                moveVertical = joystick.Vertical(); 
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && isAlive)

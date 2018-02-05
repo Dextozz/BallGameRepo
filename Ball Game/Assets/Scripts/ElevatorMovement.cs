@@ -22,8 +22,6 @@ public class ElevatorMovement : MonoBehaviour {
         lowerPos = higherPos;
         lowerPos.y = higherPos.y - 4;
         goDown = true;
-
-        Move();
     }
 
     //This is called from simonSaysPuzzle when all the combinations are correct
