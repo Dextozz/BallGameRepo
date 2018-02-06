@@ -10,6 +10,7 @@ public class EndLevelBehaviour : MonoBehaviour {
     TextMeshProUGUI totalGoldNumb;
 
     GameObject player;
+    GameObject controls;
     Button nextLvlButton;
     Button quitButton;
 
@@ -21,6 +22,7 @@ public class EndLevelBehaviour : MonoBehaviour {
     void Awake()
     {
         player = GameObject.Find("Player");
+        controls = GameObject.Find("Controls");
         GetReferences();
     }
 
@@ -66,7 +68,7 @@ public class EndLevelBehaviour : MonoBehaviour {
 
             //Show cursor and lock the camera
             Cursor.visible = true;
-            GameObject.Find("Main Camera").GetComponent<CameraMovement>().cameraLocked = true;
+            CameraMovement.cameraLocked = true;
 
             //Get currentGold
             currentGold = GameObject.Find("ScoreText").GetComponent<ScoreScript>().coinNumber;
@@ -86,6 +88,9 @@ public class EndLevelBehaviour : MonoBehaviour {
 
             //Do the update only when needed
             startCount = true;
+
+            //Turn off controls
+            controls.SetActive(false);
         }
     }
 

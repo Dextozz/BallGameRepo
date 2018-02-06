@@ -28,11 +28,11 @@ public class RespawnScript : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-        if(SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            animButton = GameObject.Find("dugmefbx").GetComponent<Animator>();
-            animTile = GameObject.Find("PressurePlatesTileFBX").GetComponent<Animator>();
-        }
+		if(SceneManager.GetActiveScene().buildIndex == 1)
+		{
+			animButton = GameObject.Find("dugmefbx").GetComponent<Animator>();
+			animTile = GameObject.Find("PressurePlatesTileFBX").GetComponent<Animator>();
+		}
 
 		player = GameObject.Find("Player");
 		rb = player.GetComponent<Rigidbody>();
@@ -66,27 +66,27 @@ public class RespawnScript : MonoBehaviour {
 		rb.useGravity = true;
 		col.enabled = true;
 		deathScreenColorImage.color = new Color(deathScreenColorImage.color.r, deathScreenColorImage.color.g, deathScreenColorImage.color.b, 0.0f);
-		GameObject.Find("Main Camera").GetComponent<CameraMovement>().cameraLocked = false;
+		CameraMovement.cameraLocked = false;
 		DeathBehaviour.repeat = true;
-        DeathBehaviour.hasDiedByTrap = false;
+		DeathBehaviour.hasDiedByTrap = false;
 
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            //Reset arrow trap
-            ShootArrows.shoot = false;
-            PressurePlate.resetComb = true;
-            TileBoardScript.newCombination = true;
-            CountdownTimer.start = false;
-            animButton.Play(upHash);
-            StartArrowsButton.boxCollider.enabled = true;
-            //Refer to MoveTile script
-            resetTile = true;
-        }
+		if (SceneManager.GetActiveScene().buildIndex == 1)
+		{
+			//Reset arrow trap
+			ShootArrows.shoot = false;
+			PressurePlate.resetComb = true;
+			TileBoardScript.newCombination = true;
+			CountdownTimer.start = false;
+			animButton.Play(upHash);
+			StartArrowsButton.boxCollider.enabled = true;
+			//Refer to MoveTile script
+			resetTile = true;
+		}
 
-        //Trap respawn
-        playerMesh.enabled = true;
-        DeathBehaviour.hasDied = false;
-        Movement.respawn = true;
+		//Trap respawn
+		playerMesh.enabled = true;
+		DeathBehaviour.hasDied = false;
+		Movement.respawn = true;
 	}
 
 	void OnTriggerEnter(Collider other)

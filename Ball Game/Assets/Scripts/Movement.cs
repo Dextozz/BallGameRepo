@@ -57,11 +57,8 @@ public class Movement : MonoBehaviour {
                 moveVertical = joystick.Vertical(); 
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && isAlive)
-            {
+            if(Input.GetKeyDown(KeyCode.Space))
                 Jump();
-                hasJumped = true;
-            }
         }
 
         //Keep the velocity so it doesn't change during jump but only do that when the player is grounded to prevent jaggy edge falling, reset the friction
@@ -161,14 +158,19 @@ public class Movement : MonoBehaviour {
         }
     }
 
-    void Jump()
+    public void Jump()
     {
-        rb.drag = 1.0f;
+        if (IsGrounded() && isAlive)
+        {
+            rb.drag = 1.0f;
 
-        //Keep the players velocity on X and Z but set in on the Y
-        Vector3 temp = rb.velocity;
-        temp.y = jumpHeight;
-        rb.velocity = temp;
+            //Keep the players velocity on X and Z but set in on the Y
+            Vector3 temp = rb.velocity;
+            temp.y = jumpHeight;
+            rb.velocity = temp;
+
+            hasJumped = true;
+        }
     }
 
     bool IsGrounded()

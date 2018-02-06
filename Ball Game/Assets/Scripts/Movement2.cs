@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Movement2 : MonoBehaviour {
 
-    [SerializeField]
-    float moveSpeed;
+	[SerializeField]
+	float moveSpeed;
 
-    Transform GCV;
-    Transform GCH;
+	Transform GCV;
+	Transform GCH;
 
-    float horizontalInput;
-    float verticalInput;
+	float horizontalInput;
+	float verticalInput;
 
 	// Use this for initialization
 	void Start () {
-        GCH = GameObject.Find("GCH").GetComponent<Transform>();
-        GCV = GameObject.Find("GCV").GetComponent<Transform>();
+		GCH = GameObject.Find("GCH").GetComponent<Transform>();
+		GCV = GameObject.Find("GCV").GetComponent<Transform>();
 	}
 	
 	// Update is called once per frame

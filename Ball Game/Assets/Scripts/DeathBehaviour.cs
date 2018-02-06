@@ -71,7 +71,7 @@ public class DeathBehaviour : MonoBehaviour {
         {
             StartCoroutine(panel.GetComponent<Transition>().DoTransition());
 
-            GameObject.Find("Main Camera").GetComponent<CameraMovement>().cameraLocked = true;
+            CameraMovement.cameraLocked = true;
 
             //STATS: Increase death count
             PlayerPrefs.SetInt("DiedTimes", ++diedTimes);

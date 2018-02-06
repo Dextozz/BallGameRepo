@@ -4,7 +4,6 @@ using System.Collections;
 
 public class CameraMovement : MonoBehaviour {
 
-    Vector3 direction;
     Transform playerTransform;
     Renderer playerMat;
     RaycastHit hitInfo;
@@ -14,7 +13,7 @@ public class CameraMovement : MonoBehaviour {
 
     //Check some death script
     [HideInInspector]
-    public bool cameraLocked;
+    public static bool cameraLocked;
     [HideInInspector]
     public static bool gamePaused;
     //Movement script
@@ -32,7 +31,7 @@ public class CameraMovement : MonoBehaviour {
 
     public float step;
     float minDistance;
-    float horizontalInput;
+    public static float horizontalInput;
     float distance = 10.0f;
     float startingZoomSpeedVal;
     float playHitDist;
@@ -61,7 +60,7 @@ public class CameraMovement : MonoBehaviour {
 
     void Update()
     {
-        GetInput();
+        //THE INPUT IS DONE IN CAMERA INPUT.CS
         SetTopDown();
 
         if (!ignoreZoom)
@@ -78,14 +77,6 @@ public class CameraMovement : MonoBehaviour {
                 playerMat.material.color = new Color(playerMat.material.color.r, playerMat.material.color.g, playerMat.material.color.b, 0.5f);
             else
                 playerMat.material.color = new Color(playerMat.material.color.r, playerMat.material.color.g, playerMat.material.color.b, 1.0f);
-        }
-    }
-
-    void GetInput()
-    {
-        if (!cameraLocked && !gamePaused)
-        {
-            horizontalInput += Input.GetAxis("Mouse X");
         }
     }
 
