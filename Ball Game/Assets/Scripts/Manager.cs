@@ -7,6 +7,7 @@ public class Manager : MonoBehaviour {
 	List<GameObject> coins;
 	GameObject coinsParent;
 	AudioSource backgroundMusic;
+	CameraMovement camera;
 
 	public Canvas pauseMenuCanvas;
 	public Canvas deathScreenCanvas;
@@ -15,6 +16,7 @@ public class Manager : MonoBehaviour {
 
 	void Start ()
 	{
+		camera = Camera.main.GetComponent<CameraMovement>();
 		coins = new List<GameObject>();
 		coinsParent = GameObject.Find("Coins");
 		backgroundMusic = GameObject.Find("BackgroundMusic").GetComponent<AudioSource>();
@@ -29,6 +31,11 @@ public class Manager : MonoBehaviour {
 			else
 				UnpauseGame();
 		}
+
+        if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.RightArrow)) && !CameraMovement.cameraLocked && !CameraMovement.gamePaused)
+            camera.MoveLeft();
+        else if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftArrow)) && !CameraMovement.cameraLocked && !CameraMovement.gamePaused)
+            camera.MoveRight();
 	}
 
 	void PauseGame()

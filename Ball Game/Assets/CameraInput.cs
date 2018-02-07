@@ -7,6 +7,7 @@ public class CameraInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     EventSystem eventSystem;
     GameObject rightBut;
     GameObject leftBut;
+    CameraMovement camera;
 
     float horizontalInput;
 
@@ -21,19 +22,7 @@ public class CameraInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
         eventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
         rightBut = GameObject.Find("RightCameraController");
         leftBut = GameObject.Find("LeftCameraController");
-    }
-
-    void Update()
-    {
-        if (!CameraMovement.cameraLocked && !CameraMovement.gamePaused)
-        {
-            if (moveRight)
-                CameraMovement.horizontalInput -= speed;
-            else if (moveLeft)
-                CameraMovement.horizontalInput += speed;
-            else
-                CameraMovement.horizontalInput += Input.GetAxis("Mouse X");
-        }
+        camera = Camera.main.gameObject.GetComponent<CameraMovement>();
     }
 
     public virtual void OnPointerDown(PointerEventData ped)
@@ -43,11 +32,17 @@ public class CameraInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
         {
             leftBut.SetActive(false);
             moveRight = true;
+
+            if(!CameraMovement.cameraLocked && !CameraMovement.gamePaused)
+                camera.MoveLeft();
         }
         else if(eventSystem.currentSelectedGameObject == leftBut)
         {
             rightBut.SetActive(false);
             moveLeft = true;
+
+            if(!CameraMovement.cameraLocked && !CameraMovement.gamePaused)
+                camera.MoveRight();
         }
     }
 

@@ -31,12 +31,13 @@ public class CameraMovement : MonoBehaviour {
 
     public float step;
     float minDistance;
-    public static float horizontalInput;
     float distance = 10.0f;
     float startingZoomSpeedVal;
     float playHitDist;
     float clipPlaneDist;
     float[] minDistances = new float[5];
+    int prevRotValue;
+    int rotatVal;
 
     //Camera top down variables
     public float topHeight;
@@ -231,10 +232,43 @@ public class CameraMovement : MonoBehaviour {
             Vector3 dir = new Vector3(0, 0, -distance);
 
             //Quaternion rotation = Quaternion.Euler(verticalInput, horizontalInput, 0.0f);
-            Quaternion rotation = Quaternion.Euler(height + playerTransform.position.y, horizontalInput, 0.0f);
+            //Quaternion rotation = Quaternion.Euler(height + playerTransform.position.y, horizontalInput, 0.0f);
+            Quaternion rotation = Quaternion.Euler(height + playerTransform.position.y, rotatVal, 0.0f);
 
             transform.position = playerTransform.position + rotation * dir;
         }
         transform.LookAt(playerTransform);
+    }
+
+    public void MoveRight()
+    {
+        StartCoroutine(moveRightCoroutine());
+    }
+
+    public void MoveLeft()
+    {
+        StartCoroutine(moveLeftCoroutine());
+    }
+
+    IEnumerator moveRightCoroutine()
+    {
+        while (rotatVal > prevRotValue - 90)
+        {
+            rotatVal -= 3;
+            yield return null;
+        }
+
+        prevRotValue = rotatVal;
+    }
+
+    IEnumerator moveLeftCoroutine()
+    {
+        while (rotatVal < prevRotValue + 90)
+        {
+            rotatVal += 3;
+            yield return null;
+        }
+
+        prevRotValue = rotatVal;
     }
 }

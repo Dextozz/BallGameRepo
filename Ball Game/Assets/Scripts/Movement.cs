@@ -30,7 +30,7 @@ public class Movement : MonoBehaviour {
 
     // Use this for initialization
     void Start()
-    {
+    { 
         rb = GetComponent<Rigidbody>();
         cameraPos = GameObject.Find("Main Camera").GetComponent<Transform>();
         GCV = GameObject.Find("GCV").GetComponent<Transform>();

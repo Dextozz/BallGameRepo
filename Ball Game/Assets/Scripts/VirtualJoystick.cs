@@ -8,10 +8,16 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
     private Image joystickImg;
     private Vector3 inputVector;
 
+    GameObject leftCamInput;
+    GameObject rightCamInput;
+
     private void Start()
     {
         bgImg = GetComponent<Image>();
         joystickImg = transform.GetChild(0).GetComponent<Image>();
+
+        rightCamInput = GameObject.Find("RightCameraController");
+        leftCamInput = GameObject.Find("LeftCameraController");
     }
 
     public virtual void OnDrag(PointerEventData ped)
@@ -31,20 +37,25 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
             inputVector = (inputVector.magnitude > 1) ? inputVector.normalized : inputVector;
 
             joystickImg.rectTransform.anchoredPosition =
-                new Vector3(inputVector.x * (bgImg.rectTransform.sizeDelta.x / 2),
-                            inputVector.z * (bgImg.rectTransform.sizeDelta.y / 2));
+                new Vector3(inputVector.x * (bgImg.rectTransform.sizeDelta.x / 3),
+                            inputVector.z * (bgImg.rectTransform.sizeDelta.y / 3));
         }
     }
 
     public virtual void OnPointerDown(PointerEventData ped)
     {
         OnDrag(ped);
+        leftCamInput.SetActive(false);
+        rightCamInput.SetActive(false);
     }
 
     public virtual void OnPointerUp(PointerEventData ped)
     {
         inputVector = Vector3.zero;
         joystickImg.rectTransform.anchoredPosition = Vector3.zero;
+
+        leftCamInput.SetActive(true);
+        rightCamInput.SetActive(true);
     }
 
     public float Horizontal()
