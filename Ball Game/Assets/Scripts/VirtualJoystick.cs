@@ -7,6 +7,7 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
     private Image bgImg;
     private Image joystickImg;
     private Vector3 inputVector;
+    private Vector2 normalizedPos;
 
     GameObject leftCamInput;
     GameObject rightCamInput;
@@ -36,10 +37,17 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
             inputVector = new Vector3(pos.x * 2 - 1, 0, pos.y * 2 - 1);
             inputVector = (inputVector.magnitude > 1) ? inputVector.normalized : inputVector;
 
+            Debug.Log(inputVector);
+
             joystickImg.rectTransform.anchoredPosition =
                 new Vector3(inputVector.x * (bgImg.rectTransform.sizeDelta.x / 3),
                             inputVector.z * (bgImg.rectTransform.sizeDelta.y / 3));
         }
+    }
+
+    void NormalizePos(Vector2 position)
+    {
+
     }
 
     public virtual void OnPointerDown(PointerEventData ped)
