@@ -27,6 +27,9 @@ public class CameraMovement : MonoBehaviour {
     bool isHitting;
     bool[] isHittingTerrain = new bool[5];
 
+    [SerializeField]
+    int speed;
+
     int layerMaskTerrain;
 
     public float step;
@@ -36,8 +39,8 @@ public class CameraMovement : MonoBehaviour {
     float playHitDist;
     float clipPlaneDist;
     float[] minDistances = new float[5];
-    int prevRotValue;
-    int rotatVal;
+    float prevRotValue;
+    public static float rotatVal;
 
     //Camera top down variables
     public float topHeight;
@@ -252,23 +255,25 @@ public class CameraMovement : MonoBehaviour {
 
     IEnumerator moveRightCoroutine()
     {
-        while (rotatVal > prevRotValue - 90)
+        while (rotatVal - speed * Time.deltaTime > prevRotValue - 90)
         {
-            rotatVal -= 3;
+            rotatVal -= speed * Time.deltaTime;
             yield return null;
         }
 
+        rotatVal = prevRotValue - 90;
         prevRotValue = rotatVal;
     }
 
     IEnumerator moveLeftCoroutine()
     {
-        while (rotatVal < prevRotValue + 90)
+        while (rotatVal + speed * Time.deltaTime < prevRotValue + 90)
         {
-            rotatVal += 3;
+            rotatVal += speed * Time.deltaTime;
             yield return null;
         }
 
+        rotatVal = prevRotValue + 90;
         prevRotValue = rotatVal;
     }
 }

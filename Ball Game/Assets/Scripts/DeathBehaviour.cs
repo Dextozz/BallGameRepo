@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DeathBehaviour : MonoBehaviour {
 
@@ -58,6 +57,7 @@ public class DeathBehaviour : MonoBehaviour {
         deathSmoke.Play();
         //Set the movement speed of the player to 0 in update while dead
         hasDiedByTrap = true;
+
         //Next 2 are used for the squishing trap
         //Remove gravity
         rb.useGravity = false;
@@ -78,6 +78,7 @@ public class DeathBehaviour : MonoBehaviour {
 
             repeat = false;
             hasDied = true;
+            player.GetComponent<Movement>().isAlive = false;
         }
     }
 

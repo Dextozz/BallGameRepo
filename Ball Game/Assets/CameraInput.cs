@@ -11,9 +11,6 @@ public class CameraInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     float horizontalInput;
 
-    [SerializeField]
-    float speed;
-
     bool moveRight;
     bool moveLeft;
 
@@ -28,21 +25,21 @@ public class CameraInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     public virtual void OnPointerDown(PointerEventData ped)
     {
         //Disable the non selected button so he can't rotate left and right at the same time
-        if(eventSystem.currentSelectedGameObject == rightBut)
+        if(eventSystem.currentSelectedGameObject == rightBut && CameraMovement.rotatVal % 90 == 0)
         {
             leftBut.SetActive(false);
             moveRight = true;
 
             if(!CameraMovement.cameraLocked && !CameraMovement.gamePaused)
-                camera.MoveLeft();
+                camera.MoveRight();
         }
-        else if(eventSystem.currentSelectedGameObject == leftBut)
+        else if(eventSystem.currentSelectedGameObject == leftBut && CameraMovement.rotatVal % 90 == 0)
         {
             rightBut.SetActive(false);
             moveLeft = true;
 
             if(!CameraMovement.cameraLocked && !CameraMovement.gamePaused)
-                camera.MoveRight();
+                camera.MoveLeft();
         }
     }
 

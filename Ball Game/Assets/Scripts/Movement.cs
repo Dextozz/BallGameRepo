@@ -12,11 +12,11 @@ public class Movement : MonoBehaviour {
     public float speedLimit;
     public VirtualJoystick joystick;
 
-    float moveHorizontal;
-    float moveVertical;
+    Vector3 moveInput;
     float distToGround;
     bool detectInput;
     bool hasJumped;
+    bool isGrounded;
     int counter = 0;
 
     //Vector3 tempY;
@@ -25,7 +25,6 @@ public class Movement : MonoBehaviour {
     Transform cameraPos;
     Transform GCV;
     Transform GCH;
-    LayerMask waterMask;
     SphereCollider sphereCollider;
 
     // Use this for initialization
@@ -36,7 +35,6 @@ public class Movement : MonoBehaviour {
         GCV = GameObject.Find("GCV").GetComponent<Transform>();
         GCH = GameObject.Find("GCH").GetComponent<Transform>();
         sphereCollider = GetComponent<SphereCollider>();
-        waterMask = 0 << 4;
 
         //Get dist to the ground to check if player is grounded
         distToGround = GetComponent<Collider>().bounds.extents.y;
@@ -46,23 +44,17 @@ public class Movement : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        isGrounded = IsGrounded();
+        moveInput = joystick.MoveInput();
+
         if (isAlive)
         {
-            if (IsGrounded())
-            {
-                //moveHorizontal = Input.GetAxis("Horizontal");
-                //moveVertical = Input.GetAxis("Vertical");
-
-                moveHorizontal = joystick.Horizontal();
-                moveVertical = joystick.Vertical(); 
-            }
-
             if(Input.GetKeyDown(KeyCode.Space))
                 Jump();
         }
 
         //Keep the velocity so it doesn't change during jump but only do that when the player is grounded to prevent jaggy edge falling, reset the friction
-        if (IsGrounded())
+        if (isGrounded)
         {
             SetFriction(0.6f);
             keepVelocity = rb.velocity;
@@ -75,20 +67,20 @@ public class Movement : MonoBehaviour {
         }
 
         //Smoother jump (Gravity increases when falling)
-        if (rb.velocity.y < 0 && !IsGrounded())
+        if (rb.velocity.y < 0 && !isGrounded)
         {
             //Its vector3.up because gravity is -9.81
             rb.AddForce(Vector3.up * Physics.gravity.y * jumpMultiplier * Time.deltaTime, ForceMode.Acceleration);
         }
 
         //Keep the velocity so it doesn't change during jump FUNC
-        if (!IsGrounded())
+        if (!isGrounded)
         {
             rb.velocity = new Vector3(keepVelocity.x / 0.8f, rb.velocity.y, keepVelocity.z / 0.8f);
         }
 
         //Prevent movement when respawning
-        if (respawn && !IsGrounded())
+        if (respawn && !isGrounded)
         {
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
             transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -97,7 +89,6 @@ public class Movement : MonoBehaviour {
             respawn = false;
 
         LimitSpeed();
-        IncreaseDragWhenStill();
     }
 
     void LimitSpeed()
@@ -119,14 +110,6 @@ public class Movement : MonoBehaviour {
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, -speedLimit);
     }
 
-    void IncreaseDragWhenStill()
-    {
-        if (moveHorizontal == 0 && moveVertical == 0 && IsGrounded() && !DeathBehaviour.hasDied)
-            rb.drag = 10.0f;
-        else
-            rb.drag = 1.0f;
-    }
-
     void SetFriction(float value)
     {
         sphereCollider.material.dynamicFriction = value;
@@ -136,49 +119,43 @@ public class Movement : MonoBehaviour {
     void FixedUpdate()
     {
         //Position of CH
-        Vector3 tempPos = cameraPos.position;
-        tempPos.y = transform.position.y;
-        GCV.position = tempPos;
+        Vector3 tempPos = cameraPos.position - transform.position;
+        tempPos.y = 0;
+        tempPos = tempPos.normalized;
+        GCV.position = transform.position + tempPos * 10;
 
         //Need this for some reason???
         GCH.LookAt(transform.position);
         GCV.LookAt(transform.position);
 
-        //Moving the ball based on GC locations
-        if (isAlive)
+        //Moving the ball based on moveInput 
+        //TODO MOVE THE BALL BASED ON MOVE INPUT AND GDC LOCATION
+        if (isAlive && isGrounded && !hasJumped)
         {
-            if (moveVertical > 0)
-                rb.AddForce((transform.position - GCV.position).normalized * forwardVel);
-            if (moveVertical < 0)
-                rb.AddForce((transform.position - GCV.position).normalized * -forwardVel);
-            if (moveHorizontal > 0)
-                rb.AddForce((transform.position - GCH.position).normalized * forwardVel);
-            if (moveHorizontal < 0)
-                rb.AddForce((transform.position - GCH.position).normalized * -forwardVel);
+            rb.velocity = new Vector3(moveInput.x * forwardVel, rb.velocity.y, moveInput.z * forwardVel);
         }
     }
 
     public void Jump()
     {
-        if (IsGrounded() && isAlive)
+        if (isGrounded && isAlive)
         {
-            rb.drag = 1.0f;
+            hasJumped = true;
 
             //Keep the players velocity on X and Z but set in on the Y
             Vector3 temp = rb.velocity;
             temp.y = jumpHeight;
             rb.velocity = temp;
 
-            hasJumped = true;
+            //moveInput.y = jumpHeight / forwardVel;
         }
     }
 
     bool IsGrounded()
     {
         //I add 0.1f to account for the additional distance between player center and the ground when ground is at an angle
-        return Physics.Raycast(transform.position, Vector3.down, distToGround + 0.1f);
+        return Physics.Raycast(transform.position, Vector3.down, distToGround + 0.2f);
     }
-
 
     //For the maze camera
     void OnTriggerEnter(Collider other)

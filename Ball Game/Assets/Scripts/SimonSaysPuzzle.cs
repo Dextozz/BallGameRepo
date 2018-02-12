@@ -42,7 +42,7 @@ public class SimonSaysPuzzle : MonoBehaviour {
 		bones = new GameObject[4];
 		firstPos = new Vector3[4];
 		darkTiles = new Material[4];
-        elevatorPlatform = GameObject.Find("ElevatorPlatformFbx");
+        elevatorPlatform = GameObject.Find("Elevator");
 
 		for (int i = 0; i < 4; i++)
 		{

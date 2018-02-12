@@ -24,7 +24,7 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
     public virtual void OnDrag(PointerEventData ped)
     {
         Vector2 pos;
-        if(RectTransformUtility.ScreenPointToLocalPointInRectangle(bgImg.rectTransform,
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(bgImg.rectTransform,
                                                                     ped.position,
                                                                     ped.pressEventCamera,
                                                                     out pos))
@@ -43,11 +43,7 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
                 new Vector3(inputVector.x * (bgImg.rectTransform.sizeDelta.x / 3),
                             inputVector.z * (bgImg.rectTransform.sizeDelta.y / 3));
         }
-    }
-
-    void NormalizePos(Vector2 position)
-    {
-
+        
     }
 
     public virtual void OnPointerDown(PointerEventData ped)
@@ -55,6 +51,7 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
         OnDrag(ped);
         leftCamInput.SetActive(false);
         rightCamInput.SetActive(false);
+        
     }
 
     public virtual void OnPointerUp(PointerEventData ped)
@@ -66,19 +63,11 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
         rightCamInput.SetActive(true);
     }
 
-    public float Horizontal()
+    public Vector3 MoveInput()
     {
-        if (inputVector.x != 0)
-            return inputVector.x;
+        if (inputVector != Vector3.zero)
+            return inputVector;
         else
-            return Input.GetAxis("Horizontal");
-    }
-
-    public float Vertical()
-    {
-        if (inputVector.z != 0)
-            return inputVector.z;
-        else
-            return Input.GetAxis("Vertical");
+            return new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
     }
 }
