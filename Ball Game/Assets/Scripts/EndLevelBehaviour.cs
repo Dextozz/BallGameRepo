@@ -125,7 +125,10 @@ public class EndLevelBehaviour : MonoBehaviour {
     public void NextLevel()
     {
         if (SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            levelEndCanvas.SetActive(false);
+        }
         else
             GameObject.Find("CommingSoonText").GetComponent<Text>().text = "Comming Soon!";
     }

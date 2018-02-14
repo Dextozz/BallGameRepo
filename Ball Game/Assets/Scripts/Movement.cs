@@ -21,6 +21,7 @@ public class Movement : MonoBehaviour {
 
     //Vector3 tempY;
     Vector3 keepVelocity;
+    Vector3 moveDirection;
     Rigidbody rb;
     Transform cameraPos;
     Transform GCV;
@@ -39,6 +40,8 @@ public class Movement : MonoBehaviour {
         //Get dist to the ground to check if player is grounded
         distToGround = GetComponent<Collider>().bounds.extents.y;
         isAlive = true;
+
+        Debug.Log("test");
     }
 
     // Update is called once per frame
@@ -89,6 +92,7 @@ public class Movement : MonoBehaviour {
             respawn = false;
 
         LimitSpeed();
+        MoveDirection();
     }
 
     void LimitSpeed()
@@ -116,6 +120,31 @@ public class Movement : MonoBehaviour {
         sphereCollider.material.staticFriction = value;
     }
 
+    //This is used to determine players forward
+    void MoveDirection()
+    {
+        if ((int)cameraPos.eulerAngles.y > -45 && (int)cameraPos.eulerAngles.y < 45)
+        {
+            //The cam is looking forward
+            moveDirection = moveInput;
+        }
+        else if((int)cameraPos.eulerAngles.y > 45 && (int)cameraPos.eulerAngles.y < 135)
+        {
+            //The cam is looking right
+            moveDirection = new Vector3(moveInput.z, 0, -moveInput.x);
+        }
+        else if((int)cameraPos.eulerAngles.y > 225 && (int)cameraPos.eulerAngles.y < 315)
+        {
+            //The cam is looking left
+            moveDirection = new Vector3(-moveInput.z, 0, moveInput.x);
+        }
+        else if((int)cameraPos.eulerAngles.y > 135 && (int)cameraPos.eulerAngles.y < 225)
+        {
+            //The cam is looking back
+            moveDirection = -moveInput;
+        }
+    }
+
     void FixedUpdate()
     {
         //Position of CH
@@ -129,10 +158,9 @@ public class Movement : MonoBehaviour {
         GCV.LookAt(transform.position);
 
         //Moving the ball based on moveInput 
-        //TODO MOVE THE BALL BASED ON MOVE INPUT AND GDC LOCATION
         if (isAlive && isGrounded && !hasJumped)
         {
-            rb.velocity = new Vector3(moveInput.x * forwardVel, rb.velocity.y, moveInput.z * forwardVel);
+            rb.velocity = new Vector3(moveDirection.x * forwardVel, rb.velocity.y, moveDirection.z * forwardVel);
         }
     }
 
@@ -146,15 +174,13 @@ public class Movement : MonoBehaviour {
             Vector3 temp = rb.velocity;
             temp.y = jumpHeight;
             rb.velocity = temp;
-
-            //moveInput.y = jumpHeight / forwardVel;
         }
     }
 
     bool IsGrounded()
     {
         //I add 0.1f to account for the additional distance between player center and the ground when ground is at an angle
-        return Physics.Raycast(transform.position, Vector3.down, distToGround + 0.2f);
+        return Physics.Raycast(transform.position, Vector3.down, distToGround + 0.1f);
     }
 
     //For the maze camera

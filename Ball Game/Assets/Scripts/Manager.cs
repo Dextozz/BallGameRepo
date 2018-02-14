@@ -8,6 +8,7 @@ public class Manager : MonoBehaviour {
 	GameObject coinsParent;
 	AudioSource backgroundMusic;
 	CameraMovement camera;
+	RespawnScript respawnScript;
 
 	public Canvas pauseMenuCanvas;
 	public Canvas deathScreenCanvas;
@@ -16,6 +17,7 @@ public class Manager : MonoBehaviour {
 
 	void Start ()
 	{
+		respawnScript = GameObject.Find("Player").GetComponent<RespawnScript>();
 		camera = Camera.main.GetComponent<CameraMovement>();
 		coins = new List<GameObject>();
 		coinsParent = GameObject.Find("Coins");
@@ -32,10 +34,10 @@ public class Manager : MonoBehaviour {
 				UnpauseGame();
 		}
 
-        if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.RightArrow)) && !CameraMovement.cameraLocked && !CameraMovement.gamePaused)
-            camera.MoveLeft();
-        else if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftArrow)) && !CameraMovement.cameraLocked && !CameraMovement.gamePaused)
-            camera.MoveRight();
+		if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.RightArrow)) && !CameraMovement.cameraLocked && !CameraMovement.gamePaused)
+			camera.MoveLeft();
+		else if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftArrow)) && !CameraMovement.cameraLocked && !CameraMovement.gamePaused)
+			camera.MoveRight();
 	}
 
 	void PauseGame()
@@ -67,8 +69,7 @@ public class Manager : MonoBehaviour {
 
 	void ResetCheckpoins()
 	{
-		RespawnScript.furthestCheckpoint = 0;
-		RespawnScript.respawnCheckpoint = RespawnScript.checkpointArray[0];
+        respawnScript.ResetCheckpoints();
 	}
 
 	void ResetCoins()

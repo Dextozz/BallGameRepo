@@ -118,7 +118,7 @@ MonoBehaviour:
   isAlive: 0
   forwardVel: 5
   jumpHeight: 8
-  jumpMultiplier: 60
+  jumpMultiplier: 100
   speedLimit: 5
   joystick: {fileID: 0}
 --- !u!114 &114541429534146530
@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 421a2424d7cf569408a22dee84aeae16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstRespawn: {x: 12, y: 1, z: -4}
 --- !u!114 &114815686791998428
 MonoBehaviour:
   m_ObjectHideFlags: 1

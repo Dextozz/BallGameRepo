@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,18 +15,18 @@ public class RespawnScript : MonoBehaviour {
 	Animator animButton;
 	Animator animTile;
 	Image deathScreenColorImage;
+	TextMeshProUGUI checkpointText;
 
 	[HideInInspector]
-	public static GameObject respawnCheckpoint;
-	[HideInInspector]
-	public static GameObject[] checkpointArray;
-	[HideInInspector]
 	public static bool resetTile;
-	[HideInInspector]
-	public static int furthestCheckpoint;
+	Vector3 firstRespawn;
+
+    List<GameObject> checkpoints;
+	Vector3 respawnLoc;
 
 	int upHash = Animator.StringToHash("bones|button up");
 	bool isSorted;
+    bool firstCheckpoint;
 
 	// Use this for initialization
 	void Start ()
@@ -34,31 +37,23 @@ public class RespawnScript : MonoBehaviour {
 			animTile = GameObject.Find("PressurePlatesTileFBX").GetComponent<Animator>();
 		}
 
+        firstCheckpoint = true;
+        checkpoints = new List<GameObject>();
 		player = GameObject.Find("Player");
 		rb = player.GetComponent<Rigidbody>();
 		col = player.GetComponent<Collider>();
 		playerMesh = player.GetComponent<MeshRenderer>();
-		checkpointArray = GameObject.FindGameObjectsWithTag("Checkpoint");
 		deathScreenColorImage = GameObject.Find("DeathScreenPanel").GetComponent<Image>();
-
-		//If the player dies before reaching any checkpoints
-		respawnCheckpoint = checkpointArray[0];
-		//First checkpoint 
-		furthestCheckpoint = 0;
-
-		//Sorting the array becase FindGameObjectsWithTag is inconsistent in sorting the objects on its own
-		if(!isSorted)
-		{
-			Array.Sort(checkpointArray, Sort);
-			isSorted = true;
-		}
+		checkpointText = GameObject.Find("CheckpointText").GetComponent<TextMeshProUGUI>();
+        checkpointText.enabled = false;
 
 	}
 	
 	public void Respawn()
 	{
 		//Unlock everything
-		player.transform.position = respawnCheckpoint.transform.position + Vector3.up;
+		//player.transform.position = respawnCheckpoint.transform.position + Vector3.up;
+		player.transform.position = respawnLoc + Vector3.up;
 		player.transform.rotation = Quaternion.Euler(0,0,0);
 		player.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		player.GetComponent<Movement>().isAlive = true;
@@ -94,20 +89,42 @@ public class RespawnScript : MonoBehaviour {
 		//Check if player hit a checkpoint and if he was alive
 		if(other.gameObject.tag == "Checkpoint" && player.GetComponent<Movement>().isAlive)
 		{
-			//Go through every checkpoint
-			for (int i = furthestCheckpoint; i < checkpointArray.Length; i++)
-			{
-				//Check every checkpoint name to see if it matches the name of the checkpoint we hit
-				if (String.Compare(other.gameObject.name, checkpointArray[i].name) == 0)
-				{
-					//Set that checkpoint as our new checkpoint
-					respawnCheckpoint = checkpointArray[i];
-					//In case the player falls down and goes through the previous checkpoint, it keeps the furthest one
-					furthestCheckpoint = i;
-					break;
-				}
-			}
+            //Set that as the respawn location
+			respawnLoc = other.transform.position;
+            //Add it to the list of used checkpoints so we can reset them later
+            checkpoints.Add(other.gameObject);
+            //Disable that game object so he cant hit it again
+			other.gameObject.SetActive(false);
+
+            //Show checkpoint text
+            if (!firstCheckpoint)
+            {
+                StartCoroutine(showCheckpointText());
+            }
+            else
+            {
+                firstRespawn = other.transform.position;
+            }
+
+            firstCheckpoint = false;
 		}
+	}
+
+	public void ResetCheckpoints()
+	{
+        respawnLoc = firstRespawn;
+
+        foreach (GameObject checkpoint in checkpoints)
+        {
+            checkpoint.SetActive(true);
+        }
+	}
+
+	IEnumerator showCheckpointText()
+	{
+		checkpointText.enabled = true;
+		yield return new WaitForSeconds(1.5f);
+		checkpointText.enabled = false;
 	}
 
 	//Comparsion method
